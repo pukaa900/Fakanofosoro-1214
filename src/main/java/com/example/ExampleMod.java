@@ -20,5 +20,7 @@ public class ExampleMod implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
+		// initialize FaceSnap mod
+		new com.example.facesnap.FaceSnapMod().onInitialize();
 	}
 }
