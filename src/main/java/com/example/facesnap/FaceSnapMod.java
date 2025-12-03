@@ -1,17 +1,19 @@
 package com.example.facesnap;
 
 import net.fabricmc.api.ModInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 public class FaceSnapMod implements ModInitializer {
-    public static final String MOD_ID = "facesnap";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
     public void onInitialize() {
-        LOGGER.info("FaceSnap initializing");
-        FaceSnapHandler.register();
-        FaceSnapCommands.register();
+
+        // Register commands
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            FaceSnapCommands.register(dispatcher);
+        });
+
+        // No handler register() exists — remove that call entirely.
+        System.out.println("FaceSnap mod loaded.");
     }
 }
