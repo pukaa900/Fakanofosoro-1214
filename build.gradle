@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
+    id 'fabric-loom' version "1.1-SNAPSHOT"
     id 'maven-publish'
 }
 
@@ -11,7 +11,7 @@ base {
 }
 
 repositories {
-    // Loom already adds Minecraft + Fabric repos.
+    // Loom already sets up MC + Fabric repositories
 }
 
 loom {
@@ -26,13 +26,17 @@ loom {
 }
 
 dependencies {
-    // --- Minecraft + Loader ---
-    minecraft "com.mojang:minecraft:1.20.1"
-    mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.14.22"
+    // --- Minecraft 1.20.4 ---
+    minecraft "com.mojang:minecraft:1.20.4"
 
-    // --- Fabric API (compatible with 1.20.1) ---
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.90.7+1.20.1"
+    // --- Yarn mappings for 1.20.4 ---
+    mappings "net.fabricmc:yarn:1.20.4+build.3:v2"
+
+    // --- Fabric Loader compatible with 1.20.4 ---
+    modImplementation "net.fabricmc:fabric-loader:0.15.6"
+
+    // --- Fabric API for 1.20.4 ---
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.95.1+1.20.4"
 }
 
 processResources {
@@ -44,13 +48,12 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    // Fabric 1.20.1 requires Java 17, NOT Java 21
+    // Minecraft 1.20.4 uses Java 17
     it.options.release = 17
 }
 
 java {
     withSourcesJar()
-
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
@@ -69,9 +72,5 @@ publishing {
             artifactId = project.archives_base_name
             from components.java
         }
-    }
-
-    repositories {
-        // Add publishing repos if needed
     }
 }
